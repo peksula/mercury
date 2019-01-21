@@ -2,22 +2,31 @@
 Sends geojson data to Polaris server.
 """
 import logging
-import sys
-import urllib2
+import requests
+
+from endpoints import PolarisAPI
 
 class PolarisClient(object):
-    def __init__(self, url, timeout):
-        self._url = url
-        self._timeout = timeout
 
-    def send_json(self, json_payload):
-        req = urllib2.Request(self._url)
-        req.add_header('Content-Type', 'application/json')
+    def __init__(self, server_address):
+        """
+        Constructor.
+        @param server_address Address of the Polaris server.
+        """
+        self._server_address = server_address
+
+    def send_route(self, json_payload):
+        """
+        Sends given route to Polaris server.
+        Returns True on success, False otherwise.
+        """
+        url = self._server_address + PolarisAPI.route.value
         try:
-            response = urllib2.urlopen(req, json_payload, timeout=self._timeout)
-        except urllib2.HTTPError, e:
-            logging.error("Sending failed " + e.fp.read())
+            response = requests.post(url, json=json_payload)
+            response.raise_for_status() # raise an exception, if response comes back with some HTTP error code
+        except requests.exceptions.RequestException  as err:
+            logging.error("Sending route failed " + str(err))
             return False
 
-        logging.debug("Data sent successfully to " + self._url)
+        logging.debug("Route sent successfully to " + url)
         return True
