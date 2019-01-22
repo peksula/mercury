@@ -24,7 +24,7 @@ if not args.geojson_file:
 logging.debug("Mercury starting.")
 geojson = GeoJsonReader().read_gjson_file(args.geojson_file)
 if geojson is not None:
-    logging.debug("Sending " + args.geojson_file + " to Polaris server at " + args.server_address)
-    PolarisClient(args.server_address).send_route(geojson)
+    logging.debug("Sending GeoJson linestring from " + args.geojson_file + " to Polaris server at " + args.server_address)
+    PolarisClient(args.server_address).send_linestring(geojson)
 
 logging.debug("Mercury finished.")

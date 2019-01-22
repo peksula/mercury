@@ -16,20 +16,20 @@ class PolarisClienting(unittest.TestCase):
         self.payload = "{\"route\": \"fake_route\"}"
 
     @patch('requests.post', autospec=True)
-    def test_sending_route_succeeds(self, mock_post):
-        return_value = self.client.send_route(self.payload)
-        mock_post.assert_called_with("fake_server_url/api/route", json=self.payload)
+    def test_sending_linestring_succeeds(self, mock_post):
+        return_value = self.client.send_linestring(self.payload)
+        mock_post.assert_called_with("fake_server_url/api/linestring", json=self.payload)
         self.assertTrue(return_value)
 
     @patch('requests.post', autospec=True)
-    def test_sending_route_fails_can_not_connect(self, mock_post):
+    def test_sending_linestring_fails_can_not_connect(self, mock_post):
         fake_response = MagicMock()
         fake_response.status_code = 504
         fake_response.raise_for_status = _raise_for_status
         mock_post.return_value = fake_response
 
-        return_value = self.client.send_route(self.payload)
-        mock_post.assert_called_with("fake_server_url/api/route", json=self.payload)
+        return_value = self.client.send_linestring(self.payload)
+        mock_post.assert_called_with("fake_server_url/api/linestring", json=self.payload)
         self.assertFalse(return_value)
 
 if __name__ == '__main__':
