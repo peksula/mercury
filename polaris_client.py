@@ -29,4 +29,5 @@ class PolarisClient(object):
             return False
 
         logging.debug("Data sent successfully to " + url)
+        logging.debug("Response " + response.text)
         return True
