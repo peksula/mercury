@@ -25,6 +25,6 @@ logging.debug("Mercury starting.")
 geojson = GeoJsonReader().read_gjson_file(args.geojson_file)
 if geojson is not None:
     logging.debug("Sending GeoJson multi line string from " + args.geojson_file + " to Polaris server at " + args.server_address)
-    PolarisClient(args.server_address).send_multi_line_string(geojson)
+    PolarisClient(args.server_address).send_geojson(geojson)
 
 logging.debug("Mercury finished.")

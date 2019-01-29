@@ -15,12 +15,12 @@ class PolarisClient(object):
         """
         self._server_address = server_address
 
-    def send_multi_line_string(self, json_payload):
+    def send_geojson(self, json_payload):
         """
-        Sends given GeoJSON multi line string to Polaris server.
+        Sends given GeoJSON to Polaris server.
         Returns True on success, False otherwise.
         """
-        url = self._server_address + PolarisAPI.multi_line_string.value
+        url = self._server_address + PolarisAPI.geojson.value
         try:
             response = requests.post(url, json=json_payload)
             response.raise_for_status() # raise an exception, if response comes back with some HTTP error code
