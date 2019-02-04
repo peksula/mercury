@@ -6,3 +6,4 @@ from enum import Enum
 
 class PolarisAPI(Enum):
     geojson = 'api/geojson'
+    tcx = 'api/tcx'

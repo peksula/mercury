@@ -7,24 +7,31 @@ Reads geojson files from disk and sends them Polaris via HTTP.
 import argparse
 import logging
 
-from geojson_reader import GeoJsonReader
+from endpoints import PolarisAPI
+from file_reader import read_file
 from polaris_client import PolarisClient
 
 logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', level=logging.DEBUG)
 
-parser = argparse.ArgumentParser(description='Mercury. Sends GeoJSON files to Polaris server.')
-parser.add_argument('--file', dest='geojson_file', help='The GeoJSON file to send')
-parser.add_argument('--server', dest='server_address', help='URL of the Polaris server where to send geoJson', default='http://127.0.0.1:3000/')
+parser = argparse.ArgumentParser(description='Mercury. Sends GeoJSON or TCX files to Polaris server.')
+parser.add_argument('--file', dest='file', help='The file to send')
+parser.add_argument('--type', dest='type', help='Type of file to send (geojson/tcx)', default='geojson')
+parser.add_argument('--server', dest='server_address', help='URL of the Polaris server where to send the data', default='http://127.0.0.1:3000/')
 args = parser.parse_args()
 
-if not args.geojson_file:
+if not args.file:
     parser.print_help()
     exit()
 
 logging.debug("Mercury starting.")
-geojson = GeoJsonReader().read_gjson_file(args.geojson_file)
-if geojson is not None:
-    logging.debug("Sending GeoJson multi line string from " + args.geojson_file + " to Polaris server at " + args.server_address)
-    PolarisClient(args.server_address).send_geojson(geojson)
+data = read_file(args.file)
+if data is not None:
+    logging.debug("Sending " + args.file + " to Polaris server at " + args.server_address)
+    if args.type == 'geojson':
+        endpoint = PolarisAPI.geojson.value
+    if args.type == 'tcx':
+        endpoint = PolarisAPI.tcx.value
+    client = PolarisClient(args.server_address)
+    client.send_data(data, endpoint)
 
 logging.debug("Mercury finished.")

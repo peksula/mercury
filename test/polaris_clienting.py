@@ -17,7 +17,7 @@ class PolarisClienting(unittest.TestCase):
 
     @patch('requests.post', autospec=True)
     def test_sending_geojson_succeeds(self, mock_post):
-        return_value = self.client.send_geojson(self.payload)
+        return_value = self.client.send_data(self.payload, 'api/geojson')
         mock_post.assert_called_with("fake_server_url/api/geojson", json=self.payload)
         self.assertTrue(return_value)
 
@@ -28,7 +28,7 @@ class PolarisClienting(unittest.TestCase):
         fake_response.raise_for_status = _raise_for_status
         mock_post.return_value = fake_response
 
-        return_value = self.client.send_geojson(self.payload)
+        return_value = self.client.send_data(self.payload, 'api/geojson')
         mock_post.assert_called_with("fake_server_url/api/geojson", json=self.payload)
         self.assertFalse(return_value)
 

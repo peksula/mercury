@@ -3,17 +3,17 @@ import sys
 import unittest
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from geojson_reader import GeoJsonReader
+from file_reader import read_file
 
-class GeoJsonReading(unittest.TestCase):
+class FileReading(unittest.TestCase):
     def setUp(self):
-        self.reader = GeoJsonReader()
+        pass
 
     def test_reading_nonexisting_file_fails(self):
-        geojson = self.reader.read_gjson_file("nonexisting")
-        self.assertIsNone(geojson)
+        content = read_file("nonexisting")
+        self.assertIsNone(content)
 
-    def test_reading_geojson_file_succeeds(self):
+    def test_reading_file_succeeds(self):
         path_to_test_file = os.path.join(os.path.dirname(__file__), 'sample_1', 'routes.geojson')
         expected_content = """{
 "type": "FeatureCollection",
@@ -24,7 +24,7 @@ class GeoJsonReading(unittest.TestCase):
 ]
 }
 """
-        geojson = self.reader.read_gjson_file(path_to_test_file)
+        geojson = read_file(path_to_test_file)
         self.assertIsNotNone(geojson)
         self.assertEquals(geojson, expected_content)
 

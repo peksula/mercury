@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<TrainingCenterDatabase xmlns="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2">
+    <Activities>
+        <Activity Sport="Other">
+            <Id>2019-01-30T15:31:04.000+02:00</Id>
+            <Creator xsi:type="Device_t" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <Name>Fitbit Surge</Name>
+                <UnitId>0</UnitId>
+                <ProductID>0</ProductID>
+            </Creator>
+        </Activity>
+    </Activities>
+</TrainingCenterDatabase>
